@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import NNetworkCreator.Network;
+
 
 public class Entry {
 
@@ -9,7 +11,7 @@ public class Entry {
 		settings.add(21);
 //		settings.add(5);
 		settings.add(1);
-		Network network = new Network(settings);
+		Network network = new Network(settings, false);
 		
 //		big_loop:
 //			continue big_loop;
