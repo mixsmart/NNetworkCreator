@@ -13,11 +13,15 @@ Entry.java - is example
 
 Examples to use:
 
+`
 public static void Main(String... args){
 
 ArrayList<Integer> settings = new ArrayList<>();
+
 	settings.add(3); // first layer, 3 neurons/inputs
+
 	settings.add(9); // second layer, 9 neurons
+
 	settings.add(2); //last layer, 2 neurons/outputs
 
 Network network = new Network(settings);
@@ -42,5 +46,5 @@ for(double result:network.usualWork(inputN)){
 
 
 }
-
+`
 Developer: I. Daghi
