@@ -13,7 +13,7 @@ Entry.java - is example
 
 Examples to use:
 
-`
+```java
 public static void Main(String... args){
 
 ArrayList<Integer> settings = new ArrayList<>();
@@ -29,7 +29,7 @@ Network network = new Network(settings);
 double[] input1 = new double[3]; // fill some values, length must be equals with network inputs in first layer;
 double[] neededReaction1 = new double[2]; // reaction of network, you expect
 
-...
+//...
 
 network.setSparseActivation(true); 
 network.setLearningRate(0.03);
@@ -46,5 +46,5 @@ for(double result:network.usualWork(inputN)){
 
 
 }
-`
+```
 Developer: I. Daghi
