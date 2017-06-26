@@ -13,14 +13,32 @@ private double outputSignal=0.0;
 private	Sigmoid sigmoid = new Sigmoid();
 private boolean enabled = true;
 public MainToolkit tool = new MainToolkit();
+private boolean isBias = false;
+
+public boolean isBias(){
+	return isBias;
+}
+public void setBias(){
+	isBias = true;
+	outputSignal = 1;
+	inputSignal = 1;
+}
 
 public double forwardSignal(ArrayList<Synapse> assignedSynapses){
 //	this.inputSignals = inputSignals;
 //	if(enabled){
-	this.outputSignal = sigmoid.value(getSumm(assignedSynapses));
+	double x = getSumm(assignedSynapses);
+   this.outputSignal = sigmoid.value(x);
+
 	return this.outputSignal;
+
 //	}
 //	else return -1;
+}
+
+public double forwardBioSignal(ArrayList<Synapse> assignedSynapses){
+	this.outputSignal = sigmoid.value(getBioSumm(assignedSynapses));
+	return this.outputSignal;
 }
 
 
@@ -56,12 +74,34 @@ public double getInputSignal(){
 
 
 
+
+
 private double getSumm(ArrayList<Synapse> assignedSynapses){
-	double out = 1;
+	double out = 0; //not bias
 	for(Synapse synapse:assignedSynapses){
-//		if(synapse.getIncomingNeuron().isEnabled()&&synapse.getOutcomingNeuron().isEnabled()){
 			out+=synapse.getIncomingNeuron().getOutputSignal()*synapse.getWeight();
-//		}
+	}
+	return out;
+}
+
+
+
+private double getBioSumm(ArrayList<Synapse> assignedSynapses){
+	double out = 0;
+	for(Synapse synapse:assignedSynapses){
+			
+		    out+=synapse.getIncomingNeuron().getOutputSignal()*synapse.getWeight();
+		    
+		    
+		    double delta = synapse.getIncomingNeuron().getOutputSignal();
+			synapse.setWeight(synapse.getWeight()+(synapse.getIncomingNeuron().getOutputSignal()*synapse.getOutcomingNeuron().getOutputSignal()*0.03));
+			if(delta<0.5){
+//				tool.k("delta: "+delta+" Weight "+synapse.getWeight());
+				synapse.setWeight(synapse.getWeight()-sigmoid.value(delta));
+//				tool.k("delta: "+delta+" Weight "+synapse.getWeight()+"\r\n");
+			}
+			if(delta>0.5) synapse.setWeight(synapse.getWeight()+sigmoid.value(delta));
+			
 	}
 	return out;
 }

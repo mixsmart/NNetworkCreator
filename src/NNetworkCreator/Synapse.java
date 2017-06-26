@@ -17,6 +17,10 @@ public Synapse(Neuron input, Neuron output){
 	tool.sleep(1);
 	Random r = new Random(System.currentTimeMillis());
 	weight = (double)(r.nextInt(100)-50)/100;//(0.5 - -0.5) //standart range
+	if(weight==0){
+//		tool.k(weight);
+		weight = 0.1;
+	}
 }
 
 
@@ -55,7 +59,8 @@ public void makeCorrection(double ideal, double learningRate){
 		weight = weight + learningRate * delta * incomingNeuron.getOutputSignal();
 }
 public void makeCorrection(SynapticLayer nextLayer, double learningRate){
-		delta = outcomingNeuron.getOutputSignal() * (1-outcomingNeuron.getOutputSignal()) * getSumm(nextLayer);		
+		delta = outcomingNeuron.getOutputSignal() * (1-outcomingNeuron.getOutputSignal()) * getSumm(nextLayer);	
+//	    delta = outcomingNeuron.getOutputSignal() * (outcomingNeuron.getOutputSignal()) * getSumm(nextLayer);	
 		weight = weight + learningRate * delta * incomingNeuron.getOutputSignal();
 }
 

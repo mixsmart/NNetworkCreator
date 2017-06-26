@@ -6,7 +6,7 @@ import OptimumWeb.MainToolkit;
 
 
 public class Controller {
-
+MainToolkit tool = new MainToolkit();
 	public ArrayList<NeuronLayer> getInitNeurons(ArrayList<Integer> layersNumInfo){
 		ArrayList<NeuronLayer> neuronLayers = new ArrayList<>();
 		for(int i=0; i<layersNumInfo.size(); i++){
@@ -15,6 +15,16 @@ public class Controller {
 			for(int y=0; y<layersNumInfo.get(i); y++){
 				Neuron neuron = new Neuron();
 				nLayer.addNeuron(neuron);
+				
+				if(y==layersNumInfo.get(i)-1){
+					if(i<layersNumInfo.size()-1){
+					Neuron biasNeuron = new Neuron();
+					biasNeuron.setBias();
+					tool.k("BIAS SET UP... Layer: "+i);
+					nLayer.addNeuron(biasNeuron);
+					}
+				}
+				
 			}
 			neuronLayers.add(nLayer);
 		}
@@ -31,6 +41,7 @@ public class Controller {
 				SynapticLayer synLayer = new SynapticLayer();
 					for(Neuron neuronI:neuronLayerI.getNeurons()){
 						for(Neuron neuronY:neuronLayerY.getNeurons()){
+							if(neuronY.isBias())continue;
 							Synapse synapse = new Synapse(neuronI, neuronY);
 							synLayer.addSynapse(synapse);
 						}
@@ -69,6 +80,31 @@ public class Controller {
 			NeuronLayer nLayer = neuronLayers.get(i); 
 			if(i==0){		
 				for(int n=0; n<nLayer.getNeurons().size(); n++){ //понейронно
+					Neuron neuron = nLayer.getNeuron(n);
+					if(!neuron.isBias())neuron.forwardSignal(input[n]);
+					else neuron.forwardSignal(1);
+				}
+			}else{
+				SynapticLayer synLayer = synapticLayers.get(i-1);
+				for(int n=0; n<nLayer.getNeurons().size(); n++){ //понейронно
+					Neuron neuron = nLayer.getNeuron(n);
+					ArrayList<Synapse> assignedSynapses = synLayer.getListByNeuron(neuron);
+					if(!neuron.isBias())neuron.forwardSignal(assignedSynapses);
+					else neuron.forwardSignal(1);
+					
+				}
+			}	
+		}
+		return neuronLayers.get(neuronLayers.size()-1);
+	}
+	
+	
+	
+	public NeuronLayer biologicalForward(double[] input, ArrayList<NeuronLayer> neuronLayers, ArrayList<SynapticLayer> synapticLayers){		
+		for(int i=0; i<neuronLayers.size(); i++){ // послойно
+			NeuronLayer nLayer = neuronLayers.get(i); 
+			if(i==0){		
+				for(int n=0; n<nLayer.getNeurons().size(); n++){ //понейронно
 					nLayer.getNeuron(n).forwardSignal(input[n]);
 				}
 			}else{
@@ -76,7 +112,7 @@ public class Controller {
 				for(int n=0; n<nLayer.getNeurons().size(); n++){ //понейронно
 					Neuron neuron = nLayer.getNeuron(n);
 					ArrayList<Synapse> assignedSynapses = synLayer.getListByNeuron(neuron);
-					neuron.forwardSignal(assignedSynapses);
+					neuron.forwardBioSignal(assignedSynapses);
 					
 				}
 			}	
@@ -95,6 +131,7 @@ public class Controller {
 			for(int n=0; n<nLayer.getNeurons().size(); n++){
 				if(n==exceptPos)continue;
 				Neuron neuron = nLayer.getNeuron(n);
+				if(neuron.isBias())continue;
 				neuron.tool.sleep(1);
 				Random rand = new Random();
 				neuron.enable(rand.nextBoolean());
@@ -105,7 +142,8 @@ public class Controller {
 			NeuronLayer nLayer = neuronLayers.get(i); 
 			if(i==0){		
 				for(int n=0; n<nLayer.getNeurons().size(); n++){ //понейронно
-					nLayer.getNeuron(n).forwardSignal(input[n]);
+					Neuron buferredNeuron = nLayer.getNeuron(n);
+					buferredNeuron.forwardSignal(input[n]);
 				}
 			}else{
 				SynapticLayer synLayer = synapticLayers.get(i-1);
