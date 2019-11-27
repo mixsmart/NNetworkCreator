@@ -8,8 +8,6 @@ import java.util.ArrayList;
 public class Entry {
 
     public static void main(String... args) {
-
-
         ArrayList<Integer> settings = new ArrayList<>();
         settings.add(2);
         settings.add(6);
@@ -19,32 +17,31 @@ public class Entry {
         Network network = new Network(settings, false);
         network.setSparseActivation(true);
 
-
         double learningRate = 0.0003;
         for (int man = 0; man < 1; man++) {
 
             network.setLearningRate(learningRate);
-            int lenght = 2;
+            int length = 2;
 
-            double[] learningDataSet1 = new double[lenght];
+            double[] learningDataSet1 = new double[length];
             learningDataSet1[0] = 1.0;
             learningDataSet1[1] = 0.0;
             double[] learningDataSetResult1 = new double[1];
             learningDataSetResult1[0] = 1;
 
-            double[] learningDataSet2 = new double[lenght];
+            double[] learningDataSet2 = new double[length];
             learningDataSet2[0] = 0.0;
             learningDataSet2[1] = 1.0;
             double[] learningDataSetResult2 = new double[1];
             learningDataSetResult2[0] = 1;
 
-            double[] learningDataSet3 = new double[lenght];
+            double[] learningDataSet3 = new double[length];
             learningDataSet3[0] = 1.0;
             learningDataSet3[1] = 1.0;
             double[] learningDataSetResult3 = new double[1];
             learningDataSetResult3[0] = 0;
 
-            double[] learningDataSet4 = new double[lenght];
+            double[] learningDataSet4 = new double[length];
             learningDataSet4[0] = 0.0;
             learningDataSet4[1] = 0.0;
             double[] learningDataSetResult4 = new double[1];
@@ -64,8 +61,7 @@ public class Entry {
 
             }
 
-
-            double[] testDataSet = new double[lenght];
+            double[] testDataSet = new double[length];
             testDataSet[0] = 0.0;
             testDataSet[1] = 0.75;
 
