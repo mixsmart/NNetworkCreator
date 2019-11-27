@@ -1,0 +1,4 @@
+.idea/**
+*.class
+**/NNetworkCreator.jar
+*.swp

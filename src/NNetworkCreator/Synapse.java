@@ -18,7 +18,7 @@ public Synapse(Neuron input, Neuron output){
 	Random r = new Random(System.currentTimeMillis());
 	weight = (double)(r.nextInt(100)-50)/100;//(0.5 - -0.5) //standart range
 	if(weight==0){
-//		tool.k(weight);
+//		tool.show(weight);
 		weight = 0.1;
 	}
 }

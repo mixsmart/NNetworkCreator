@@ -96,9 +96,9 @@ private double getBioSumm(ArrayList<Synapse> assignedSynapses){
 		    double delta = synapse.getIncomingNeuron().getOutputSignal();
 			synapse.setWeight(synapse.getWeight()+(synapse.getIncomingNeuron().getOutputSignal()*synapse.getOutcomingNeuron().getOutputSignal()*0.03));
 			if(delta<0.5){
-//				tool.k("delta: "+delta+" Weight "+synapse.getWeight());
+//				tool.show("delta: "+delta+" Weight "+synapse.getWeight());
 				synapse.setWeight(synapse.getWeight()-sigmoid.value(delta));
-//				tool.k("delta: "+delta+" Weight "+synapse.getWeight()+"\r\n");
+//				tool.show("delta: "+delta+" Weight "+synapse.getWeight()+"\r\n");
 			}
 			if(delta>0.5) synapse.setWeight(synapse.getWeight()+sigmoid.value(delta));
 			
