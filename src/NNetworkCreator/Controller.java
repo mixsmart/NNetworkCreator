@@ -78,13 +78,15 @@ public class Controller {
                 forward(nLayer, input);
             } else {
                 SynapticLayer synLayer = synapticLayers.get(i - 1);
+                int counter = 0;
                 for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
-                    if (random.nextBoolean()) continue;
+                    //we need at least one neuron at layer to forward signal
+                    if (counter<nLayer.getNeurons().size()-1 && random.nextBoolean()) continue;
                     Neuron neuron = nLayer.getNeuron(n);
                     List<Synapse> assignedSynapses = synLayer.getListByNeuron(neuron);
                     if (!neuron.isBias()) neuron.forwardSignal(assignedSynapses);
                     else neuron.forwardSignal(1);
-
+                    counter++;
                 }
             }
         }
