@@ -1,9 +1,7 @@
 package NNetworkCreator;
 
-import OptimumWeb.MainToolkit;
 import org.apache.commons.math3.analysis.function.Sigmoid;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,7 +9,6 @@ public class Neuron {
     private double outputSignal = 0.0;
     private Sigmoid sigmoid = new Sigmoid();
     private boolean enabled = true;
-    private MainToolkit tool = new MainToolkit();
     private boolean isBias = false;
 
     public boolean isBias() {

@@ -56,14 +56,14 @@ public class Network {
      * @param goodResult
      */
     public void train(double[] primaryValues, double[] goodResult) {
-        trainfwd(primaryValues, goodResult); //new results remains in output neurons
+        forward(primaryValues); //new results remains in output neurons
         controller.backward(goodResult, neuronLayers, synapticLayers, learningRate);
 
     }
 
-    private double[] trainfwd(double[] primaryValues, double[] goodResult) {
+    private double[] forward(double[] primaryValues) {
         NeuronLayer exit;
-        if (hasSparse()) exit = controller.forward(primaryValues, neuronLayers, synapticLayers);
+        if (!hasSparse()) exit = controller.forward(primaryValues, neuronLayers, synapticLayers);
         else exit = controller.sparseForward(primaryValues, neuronLayers, synapticLayers);
         double[] out = new double[exit.getNeurons().size()];
         for (int i = 0; i < out.length; i++) {

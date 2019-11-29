@@ -1,7 +1,5 @@
 package NNetworkCreator;
 
-import OptimumWeb.MainToolkit;
-
 import java.util.Random;
 
 
@@ -10,13 +8,12 @@ public class Synapse {
     private Neuron outgoingNeuron;
     private double weight = 0.0;
     private double delta = 0;
-    public MainToolkit tool = new MainToolkit();
+
     private Random rand = new Random();
 
     public Synapse(Neuron input, Neuron output) {
         setIncomingNeuron(input);
         setOutgoingNeuron(output);
-        tool.sleep(1);
         weight = getRandomValueInRange();
         if (weight == 0) {
             weight = 0.1;
