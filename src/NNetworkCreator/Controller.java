@@ -55,11 +55,7 @@ public class Controller {
         for (int i = 0; i < neuronLayers.size(); i++) { // each layer
             NeuronLayer nLayer = neuronLayers.get(i);
             if (i == 0) {
-                for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
-                    Neuron neuron = nLayer.getNeuron(n);
-                    if (!neuron.isBias()) neuron.forwardSignal(input[n]);
-                    else neuron.forwardSignal(1);
-                }
+                forward(nLayer, input);
             } else {
                 SynapticLayer synLayer = synapticLayers.get(i - 1);
                 for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
@@ -79,14 +75,11 @@ public class Controller {
         for (int i = 0; i < neuronLayers.size(); i++) { // each layer
             NeuronLayer nLayer = neuronLayers.get(i);
             if (i == 0) {
-                for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
-                    Neuron neuron = nLayer.getNeuron(n);
-                    if (!neuron.isBias()) neuron.forwardSignal(input[n]);
-                    else neuron.forwardSignal(1);
-                }
+                forward(nLayer, input);
             } else {
                 SynapticLayer synLayer = synapticLayers.get(i - 1);
                 for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
+                    if (random.nextBoolean()) continue;
                     Neuron neuron = nLayer.getNeuron(n);
                     List<Synapse> assignedSynapses = synLayer.getListByNeuron(neuron);
                     if (!neuron.isBias()) neuron.forwardSignal(assignedSynapses);
@@ -97,43 +90,6 @@ public class Controller {
         }
         return neuronLayers.get(neuronLayers.size() - 1);
     }
-
-//    public NeuronLayer sparseForward(double[] input, List<NeuronLayer> neuronLayers, List<SynapticLayer> synapticLayers) {
-//        //deactivate some rand neurons
-//        for (int i = 1; i < neuronLayers.size() - 1; i++) {
-//            NeuronLayer nLayer = neuronLayers.get(i);
-//            Random randP = new Random();
-//            int exceptPos = randP.nextInt(nLayer.getNeurons().size());
-//            for (int n = 0; n < nLayer.getNeurons().size(); n++) {
-//                if (n == exceptPos) continue;
-//                Neuron neuron = nLayer.getNeuron(n);
-//                if (neuron.isBias()) continue;
-//                tool.sleep(1);
-//                Random rand = new Random();
-//                neuron.enable(rand.nextBoolean());
-//            }
-//        }
-//
-//        for (int i = 0; i < neuronLayers.size(); i++) { // each layer
-//            NeuronLayer nLayer = neuronLayers.get(i);
-//            if (i == 0) {
-//                for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
-//                    Neuron bufferedNeuron = nLayer.getNeuron(n);
-//                    bufferedNeuron.forwardSignal(input[n]);
-//                }
-//            } else {
-//                SynapticLayer synLayer = synapticLayers.get(i - 1);
-//                for (int n = 0; n < nLayer.getNeurons().size(); n++) { //each neuron
-//                    Neuron neuron = nLayer.getNeuron(n);
-//                    if (!neuron.isEnabled()) continue;
-//                    ArrayList<Synapse> assignedSynapses = synLayer.getListByNeuron(neuron);
-//                    neuron.forwardSignal(assignedSynapses);
-//
-//                }
-//            }
-//        }
-//        return neuronLayers.get(neuronLayers.size() - 1);
-//    }
 
     public void backward(double[] positiveSignal, List<NeuronLayer> neuronLayers, List<SynapticLayer> synapticLayers, double learningRate) {
 
@@ -161,6 +117,14 @@ public class Controller {
             }
         }
 
+    }
+
+    private void forward(NeuronLayer layer, double[] input) {
+        for (int n = 0; n < layer.getNeurons().size(); n++) { //each neuron
+            Neuron neuron = layer.getNeuron(n);
+            if (!neuron.isBias()) neuron.forwardSignal(input[n]);
+            else neuron.forwardSignal(1);
+        }
     }
 
 }
